@@ -1,0 +1,26 @@
+import pandas as pd
+
+def map_reduce_with_pandas(input_file):
+    # Load dataset
+    df = pd.read_csv(input_file)
+
+    # Filter deceased males and compute average age
+    deceased_males = df[(df['Survived'] == 0) & (df['Sex'] == 'male')]
+    average_age_deceased_males = deceased_males['Age'].mean()
+
+    # Filter deceased females
+    deceased_females = df[(df['Survived'] == 0) & (df['Sex'] == 'female')]
+
+    # Count deceased females by class
+    count_deceased_females_by_class = deceased_females['Pclass'].value_counts()
+
+    return average_age_deceased_males, count_deceased_females_by_class
+
+# Call the function
+input_file = "titanic_dataset.csv"
+average_age, female_class_count = map_reduce_with_pandas(input_file)
+
+# Print results
+print(f"Average age of deceased males: {average_age:.2f}")
+print("Count of deceased females by class:")
+print(female_class_count)
